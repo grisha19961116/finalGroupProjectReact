@@ -34,18 +34,18 @@ const TestPage = lazy(() =>
 );
 
 function App() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(authOperations.fetchCurrentUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(authOperations.fetchCurrentUser());
+  // }, [dispatch]);
   return (
     <BrowserRouter>
-      {/* <Header /> */}
-      <Suspense fallback={'Loading'}>
-        <Switch>
-          <Route path={routes.TEST_VIEW} component={TestPage} />
-          {/*           
+      <Header />
+      {/* <Suspense fallback={'Loading'}> */}
+      {/* <Switch> */}
+      {/* <Route path={routes.TEST_VIEW} component={TestPage} /> */}
+      {/*           
           <PrivateRoute path={routes.USEFUL_INFO_VIEW}>
             <UseFulInfoView />
           </PrivateRoute>
@@ -61,8 +61,8 @@ function App() {
           <PrivateRoute path={routes.MAIN_VIEW}>
             <MainView />
             </PrivateRoute> */}
-        </Switch>
-      </Suspense>
+      {/* </Switch> */}
+      {/* </Suspense> */}
       <Footer />
     </BrowserRouter>
   );

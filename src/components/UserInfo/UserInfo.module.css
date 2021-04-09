@@ -11,6 +11,7 @@
   display: flex;
   align-items: center;
   margin-right: 35px;
+  position: relative;
 }
 
 .initial {
@@ -41,6 +42,16 @@
     margin-right: 40px;
   }
 
+  .userInfo::after {
+    content: '';
+    position: absolute;
+    display: block;
+    height: 70px;
+    width: 1px;
+    background-color: #e2e3e5;
+    right: -20px;
+  }
+
   .initial {
     margin-right: 10px;
   }
@@ -55,6 +66,7 @@
     fill: #000;
     cursor: pointer;
     transition: 0.4s;
+    position: relative;
   }
 
   .signOutBtnLg:hover {
