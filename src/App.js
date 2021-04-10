@@ -63,7 +63,7 @@ function App() {
             </PrivateRoute> */}
       {/* </Switch> */}
       {/* </Suspense> */}
-      <Footer />
+      {/* <Footer /> */}
     </BrowserRouter>
   );
 }
