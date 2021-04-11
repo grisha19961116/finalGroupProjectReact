@@ -128,7 +128,7 @@
   font-weight: bold;
   left: -50px;
   z-index: 10000;
-  background-color: #fff;
+  background-color: #f5f6fb;
 }
 
 @media (min-width: 768px) {

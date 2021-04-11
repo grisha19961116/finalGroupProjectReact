@@ -38,13 +38,14 @@ function UserInfo({ onOpenMobileMenu }) {
     const files = e.target.files;
     const data = new FormData();
     data.append('file', files[0]);
-    data.append('upload_present', 'andray838');
+    data.append('upload_preset', 'kyhvjqja');
     setLoading(true);
     const res = await fetch(
       '	https://api.cloudinary.com/v1_1/andray838/image/upload',
       {
         method: 'POST',
         body: data,
+        api_key: 914256646727944,
       },
     );
 
@@ -68,7 +69,6 @@ function UserInfo({ onOpenMobileMenu }) {
               className={styles.avatarImg}
             />
           )}
-          {/* <img src={avatar} alt="avatar" width="40" className={styles.avatarImg} /> */}
           <span className={styles.dropdownCaret}></span>
           <div
             className={
@@ -88,6 +88,7 @@ function UserInfo({ onOpenMobileMenu }) {
               id="fileUpload"
               placeholder="Upload an image"
               onChange={uploadImage}
+              onClick={toggleModal}
             />
             <p className={styles.userInfoModalText}>Change name</p>
           </div>
