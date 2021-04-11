@@ -27,13 +27,13 @@ const setToken = {
   },
 };
 
-const registerUser = ({ name, email, password }) => {
-  return axios
-    .post('/auth/register', { name, email, password })
-    .then(data => data);
+const registerUser = ({ email, password }) => {
+  console.log('registerUser', email, password);
+  return axios.post('/auth/register', { email, password }).then(data => data);
 };
 
 const login = ({ email, password }) => {
+  console.log('login', email, password);
   return axios.post('/auth/login', { email, password }).then(data => data);
 };
 
