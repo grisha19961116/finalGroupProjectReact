@@ -68,9 +68,9 @@ const projectTeam = [
   },
   {
     id: 8,
-    name: 'Ribalko Pavel',
+    name: 'Rybalko Pavel',
     position: 'Full stack developer',
-    eMail: 'freedom277f@gmail.com',
+    eMail: 'pavelsergeevichrybalko@gmail.com',
     imgSrc: Ribalko,
     linkedin: 'https://www.linkedin.com/in/рыбалко-павел-92071098',
   },
