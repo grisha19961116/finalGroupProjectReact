@@ -1,8 +1,9 @@
 .container__loader {
   display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
   width: 100%;
   min-height: calc(100vh - 179px);
   background-color: honeydew;
-  justify-content: center;
-  align-content: center;
 }

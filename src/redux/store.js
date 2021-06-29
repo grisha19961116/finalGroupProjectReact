@@ -3,15 +3,10 @@ import thunk from 'redux-thunk';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { rootReducer } from '../redux/rootReducer/';
 
-const composeEnhancers = composeWithDevTools({
-  // Specify here name, actionsBlacklist, actionsCreators and other options
-});
+const composeEnhancers = composeWithDevTools({});
 const store = createStore(
   rootReducer,
-  composeEnhancers(
-    applyMiddleware(thunk),
-    // other store enhancers if any
-  ),
+  composeEnhancers(applyMiddleware(thunk)),
 );
 
 export { store };

@@ -1,3 +1,4 @@
+import { toast } from 'react-toastify';
 import axios from 'axios';
 axios.defaults.baseURL = 'https://final-group-project-node.herokuapp.com';
 
@@ -71,6 +72,16 @@ const registerUser = async ({ email, password }) => {
     const { data } = await axios.post('/auth/register', { email, password });
     return data;
   } catch (e) {
+    if (e.message.slice(-3) === '409')
+      return toast.error('❌ Email has already been using!', {
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     updateTokenByCode(e.message);
   }
 };
@@ -80,6 +91,16 @@ const login = async ({ email, password }) => {
     const { data } = await axios.post('/auth/login', { email, password });
     return data;
   } catch (e) {
+    if (e.message.slice(-3) === '401')
+      return toast.error('❌ Wrong credentials!', {
+        position: 'bottom-left',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     updateTokenByCode(e.message);
   }
 };

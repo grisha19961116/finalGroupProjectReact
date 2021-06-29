@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useEffect } from 'react';
+
 import { useDispatch } from 'react-redux';
 import { authOperations } from './redux/auth';
 import routes from './routes';
@@ -12,6 +13,7 @@ import GoogleLogin from './components/GoogleLogin';
 import Footer from './components/Footer/';
 import PrivateRoute from './components/Routes/PrivateRoute';
 import PublicRoute from './components/Routes/PublicRoute';
+
 const MainView = lazy(() =>
   import('./views/MainView' /*webpackChunkName: "MainView"*/),
 );
@@ -70,7 +72,17 @@ function App() {
         </Switch>
       </Suspense>
       <Footer />
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </BrowserRouter>
   );
 }

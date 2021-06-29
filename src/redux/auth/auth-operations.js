@@ -8,6 +8,8 @@ import {
   getUser,
 } from '../../data/apiQueries.js';
 
+import { toast } from 'react-toastify';
+
 import {
   registerUserRequest,
   registerUserSuccess,
@@ -28,7 +30,6 @@ import {
   changeUserAvatarSuccess,
   changeUserAvatarError,
 } from './auth-actions';
-import { toast } from 'react-toastify';
 
 const register = ({ email, password }) => async dispatch => {
   dispatch(registerUserRequest());
@@ -41,9 +42,7 @@ const register = ({ email, password }) => async dispatch => {
       `User ${email} was created , please follow to your email and confirm request`,
     );
     dispatch(registerUserSuccess(user));
-  } catch (error) {
-    console.log(error.message);
-    toast.dark(`Wrong email`);
+  } catch (err) {
     dispatch(registerUserError(null));
   }
 };
@@ -58,9 +57,8 @@ const logIn = ({ email, password }) => async dispatch => {
     localStorage.setItem('refreshToken', data.refreshToken);
     toast.dark(`Hello dear ${email}`);
     dispatch(loginUserSuccess(data));
-  } catch (error) {
-    toast.dark(`Wrong credentials`);
-    dispatch(loginUserError(error.message));
+  } catch (err) {
+    dispatch(loginUserError(err.message));
   }
 };
 

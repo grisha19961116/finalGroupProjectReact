@@ -4,7 +4,6 @@ import { NavLink } from 'react-router-dom';
 import routes from '../../routes';
 import { authSelectors, authOperations } from '../../redux/auth';
 import UserInfo from '../UserInfo';
-// import UserAvatarUpdate from '../UserAvatarUpdate';
 import { ReactComponent as SignOutIcon } from '../../assets/icons/svg/signOut.svg';
 import styles from './Navigation.module.css';
 
