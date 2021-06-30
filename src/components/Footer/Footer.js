@@ -4,7 +4,6 @@ import s from './Footer.module.css';
 import ShareButton from '../ShareButton';
 
 const Footer = () => {
-  // const url = '#';
   return (
     <footer className={s.footer}>
       <div>

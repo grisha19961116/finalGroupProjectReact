@@ -55,7 +55,15 @@ const logIn = ({ email, password }) => async dispatch => {
     setToken.set(data.accessToken);
     localStorage.setItem('token', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
-    toast.dark(`Hello dear ${email}`);
+    toast.success('🦄 Hello!', {
+      position: 'bottom-left',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     dispatch(loginUserSuccess(data));
   } catch (err) {
     dispatch(loginUserError(err.message));
@@ -75,7 +83,6 @@ const logInGoogle = ({
     localStorage.setItem('token', token);
     localStorage.setItem('refreshToken', refreshToken);
     const data = { user: { name: name, email, avatarURL: picture } };
-    toast.dark(`Hello dear ${name}`);
     dispatch(loginUserSuccess(data));
   } catch (error) {
     dispatch(loginUserError(error.message));
@@ -102,16 +109,15 @@ const logOut = () => async dispatch => {
 const fetchCurrentUser = token => async dispatch => {
   setToken.set(token);
   dispatch(fetchCurrentUserRequest());
-
   try {
     const { data } = await getUser();
     dispatch(fetchCurrentUserSuccess(data));
-    toast.dark(`Welcome current user`);
   } catch (error) {
     dispatch(fetchCurrentUserError(error.message));
     toast.dark(`Please execute login`);
   }
 };
+
 const updateName = userName => async dispatch => {
   dispatch(changeNameUserRequest());
 

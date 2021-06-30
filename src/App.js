@@ -3,6 +3,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 import { useDispatch } from 'react-redux';
 import { authOperations } from './redux/auth';
@@ -37,6 +38,15 @@ function App() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+    toast.success('🦄 Hello!', {
+      position: 'bottom-left',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+    });
     if (token === null) return;
     dispatch(authOperations.fetchCurrentUser(token));
   }, [dispatch]);

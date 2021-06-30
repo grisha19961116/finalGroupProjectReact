@@ -11,9 +11,9 @@ const setToken = {
   },
 };
 
-const updateTokenByCode = async e => {
+const updateTokenByCode = async err => {
   try {
-    if (e.slice(-3) !== '401') return;
+    if (err.slice(-3) !== '401') return;
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken === null) return;
     const {
@@ -23,9 +23,7 @@ const updateTokenByCode = async e => {
     localStorage.setItem('token', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
     return;
-  } catch (e) {
-    console.log(e);
-  }
+  } catch (_e) {}
 };
 
 const getQuestions = async query => {
@@ -91,8 +89,9 @@ const login = async ({ email, password }) => {
     const { data } = await axios.post('/auth/login', { email, password });
     return data;
   } catch (e) {
+    updateTokenByCode(e.message);
     if (e.message.slice(-3) === '401')
-      return toast.error('❌ Wrong credentials!', {
+      return toast.error('❌ Unauthorized!', {
         position: 'bottom-left',
         autoClose: 5000,
         hideProgressBar: false,
@@ -101,7 +100,6 @@ const login = async ({ email, password }) => {
         draggable: true,
         progress: undefined,
       });
-    updateTokenByCode(e.message);
   }
 };
 
@@ -116,7 +114,8 @@ const loginGoogle = async () => {
 
 const logout = () => {
   try {
-    return axios.post('auth/logout').then(data => data);
+    axios.post('auth/logout').then(data => data);
+    localStorage.removeItem('token');
   } catch (e) {
     updateTokenByCode(e.message);
   }
