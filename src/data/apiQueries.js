@@ -11,9 +11,30 @@ const setToken = {
   },
 };
 
-const updateTokenByCode = async err => {
+const serverErr = warn =>
+  toast.error(`🔥 ${warn}!`, {
+    position: 'bottom-left',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
+const serverSuc = warn =>
+  toast.success(`⚡ ${warn}`, {
+    position: 'bottom-left',
+    autoClose: 3000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+  });
+
+const updateTokenByCode = async () => {
   try {
-    if (err.slice(-3) !== '401') return;
     const refreshToken = localStorage.getItem('refreshToken');
     if (refreshToken === null) return;
     const {
@@ -35,7 +56,9 @@ const getQuestions = async query => {
     );
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 
@@ -45,15 +68,20 @@ const postUserAnswers = async (nameTest, userAnswers) => {
     const { data } = await axios.post(`/test/result`, dataPost);
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 const patchUpdateUserName = async userName => {
   try {
     const { data } = await axios.patch('/users/current', userName);
+    serverSuc('Name was updated');
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 const patchUpdateUserAvatar = async userAvatar => {
@@ -61,16 +89,24 @@ const patchUpdateUserAvatar = async userAvatar => {
     const { data } = await axios.patch('/users/avatars', userAvatar);
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
+  } finally {
+    serverSuc('Avatar was updated');
   }
 };
 
 const registerUser = async ({ email, password }) => {
   try {
     const { data } = await axios.post('/auth/register', { email, password });
+    serverSuc(
+      'User was created , please follow to your email and confirm request',
+    );
     return data;
   } catch (e) {
-    if (e.message.slice(-3) === '409')
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) === '409') {
       return toast.error('❌ Email has already been using!', {
         position: 'bottom-left',
         autoClose: 5000,
@@ -80,7 +116,9 @@ const registerUser = async ({ email, password }) => {
         draggable: true,
         progress: undefined,
       });
-    updateTokenByCode(e.message);
+    }
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 
@@ -89,8 +127,8 @@ const login = async ({ email, password }) => {
     const { data } = await axios.post('/auth/login', { email, password });
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
-    if (e.message.slice(-3) === '401')
+    if (e.message.slice(-3) === '401') {
+      updateTokenByCode();
       return toast.error('❌ Unauthorized!', {
         position: 'bottom-left',
         autoClose: 5000,
@@ -100,6 +138,9 @@ const login = async ({ email, password }) => {
         draggable: true,
         progress: undefined,
       });
+    }
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 
@@ -108,7 +149,9 @@ const loginGoogle = async () => {
     const data = await axios.get('/auth/google');
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 
@@ -116,8 +159,11 @@ const logout = () => {
   try {
     axios.post('auth/logout').then(data => data);
     localStorage.removeItem('token');
+    serverSuc(`Goodbye`);
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 
@@ -126,7 +172,9 @@ const getUser = async () => {
     const { data } = await axios.get('/users/current');
     return data;
   } catch (e) {
-    updateTokenByCode(e.message);
+    if (e.message.slice(-3) === '401') return updateTokenByCode();
+    if (e.message.slice(-3) !== '403')
+      return serverErr('The server is temporarily down ');
   }
 };
 

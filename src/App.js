@@ -40,7 +40,7 @@ function App() {
     const token = localStorage.getItem('token');
     toast.success('🦄 Hello!', {
       position: 'bottom-left',
-      autoClose: 5000,
+      autoClose: 3000,
       hideProgressBar: false,
       closeOnClick: true,
       pauseOnHover: true,
@@ -83,7 +83,6 @@ function App() {
       </Suspense>
       <Footer />
       <ToastContainer
-        position="bottom-left"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}

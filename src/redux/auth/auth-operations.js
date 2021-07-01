@@ -8,8 +8,6 @@ import {
   getUser,
 } from '../../data/apiQueries.js';
 
-import { toast } from 'react-toastify';
-
 import {
   registerUserRequest,
   registerUserSuccess,
@@ -38,9 +36,6 @@ const register = ({ email, password }) => async dispatch => {
       data: { avatar },
     } = await registerUser({ email, password });
     const user = { user: { name: null, email, avatarURL: avatar } };
-    toast.dark(
-      `User ${email} was created , please follow to your email and confirm request`,
-    );
     dispatch(registerUserSuccess(user));
   } catch (err) {
     dispatch(registerUserError(null));
@@ -49,21 +44,11 @@ const register = ({ email, password }) => async dispatch => {
 
 const logIn = ({ email, password }) => async dispatch => {
   dispatch(loginUserRequest());
-
   try {
     const { data } = await login({ email, password });
     setToken.set(data.accessToken);
     localStorage.setItem('token', data.accessToken);
     localStorage.setItem('refreshToken', data.refreshToken);
-    toast.success('🦄 Hello!', {
-      position: 'bottom-left',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-    });
     dispatch(loginUserSuccess(data));
   } catch (err) {
     dispatch(loginUserError(err.message));
@@ -86,22 +71,18 @@ const logInGoogle = ({
     dispatch(loginUserSuccess(data));
   } catch (error) {
     dispatch(loginUserError(error.message));
-    toast.dark(`Wrong credentials`);
   }
 };
 
 const logOut = () => async dispatch => {
   dispatch(logoutUserRequest());
-  localStorage.removeItem('refreshToken');
-  localStorage.removeItem('token');
-
   try {
+    localStorage.removeItem('refreshToken');
+    localStorage.removeItem('token');
     await logout();
     setToken.unset();
-    toast.dark(`Goodbye dear user`);
     dispatch(logoutUserSuccess());
   } catch (error) {
-    toast.dark(`Ups Something wrong:)`);
     dispatch(logoutUserError(error.message));
   }
 };
@@ -114,22 +95,18 @@ const fetchCurrentUser = token => async dispatch => {
     dispatch(fetchCurrentUserSuccess(data));
   } catch (error) {
     dispatch(fetchCurrentUserError(error.message));
-    toast.dark(`Please execute login`);
   }
 };
 
 const updateName = userName => async dispatch => {
   dispatch(changeNameUserRequest());
-
   try {
     const {
       data: { user },
     } = await patchUpdateUserName(userName);
-    toast.dark(`Name was updated`);
     dispatch(changeNameUserSuccess(user));
   } catch (error) {
     dispatch(changeNameUserError(error.message));
-    toast.dark(`Wrong input symbols `);
   }
 };
 
@@ -138,14 +115,11 @@ const updateAvatar = avatar => async dispatch => {
   const {
     data: { avatarUrl },
   } = await patchUpdateUserAvatar(avatar);
-  toast.dark(`Wait we are uploading `);
   try {
   } catch (error) {
     dispatch(changeUserAvatarError(error.message));
-    toast.dark(`Photo must be less than 2000KB`);
   } finally {
     await dispatch(changeUserAvatarSuccess(avatarUrl));
-    toast.dark(`Avatar was updated`);
   }
 };
 
